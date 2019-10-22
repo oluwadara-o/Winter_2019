@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -28,20 +29,21 @@ public class textPanel extends JPanel implements ActionListener{
 	private JTextArea sceneText;
 	
 	public textPanel() {
-		
+		//the text displayed on scene
 		sceneText =  new JTextArea(sceneInfo);
-		JPanel scenePanel = new JPanel();
-		scenePanel.add(sceneText);
+		JScrollPane scenePanel = new JScrollPane(sceneText);
 		scenePanel.setPreferredSize(new Dimension(400,400));
 		
+		//create a panel to type and enter text
 		JPanel textEntryPanel = new JPanel();
-		textField = new JTextField("echo");
+		textField = new JTextField("Type here");
+		textEntryPanel.add(textField);
 		sendButton = new JButton("send");
 		sendButton.addActionListener(this);
-		textEntryPanel.add(textField);
 		textEntryPanel.add(sendButton);
 		textEntryPanel.setLayout(new BoxLayout(textEntryPanel,BoxLayout.X_AXIS));
 		
+		//add all panels together
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new BoxLayout(mainPanel,BoxLayout.Y_AXIS));
 		mainPanel.add(scenePanel);
@@ -52,11 +54,31 @@ public class textPanel extends JPanel implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == sendButton) {
-			String updatedSceneInfo = sceneInfo +"\n"+ textField.getText();
-			sceneInfo =updatedSceneInfo;
-			sceneText.setText(updatedSceneInfo);
+			String typedText = textField.getText();
+			String action;
+			//chose what to do depending on what was typed in
+			if(typedText.isEmpty()) {
+				//do nothing if testfield is empty
+			}else if (typedText.matches("speak")) {
+				action = "you say nothing";
+				updateScript(action, typedText);
+				System.out.println(typedText);
+			}else {
+				action = "you don't know how to " + typedText;
+				updateScript(action, typedText);
+				System.out.println("Invalid Comamnd");
+			}
 			
 		}
+	}
+	
+	/*
+	 * Update the text display based on the action taken
+	 */
+	public void updateScript(String action, String typedText) {
+		//add try catch block
+		sceneInfo = sceneInfo +"\n Action:"+ typedText +"\n" + action;
+		sceneText.setText(sceneInfo);
 	}
 
 }
