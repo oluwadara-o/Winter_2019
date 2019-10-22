@@ -11,7 +11,7 @@ import javax.swing.*;
 public class SimpleHelloButton implements SwingConstants{
 	
 	private static void createAndDisplayGui() {
-		JFrame frame = new JFrame("Swing example");
+		JFrame frame = new JFrame("Button Example");
 		// Exit application if window is closed
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setMinimumSize(new Dimension(300,300)); //smalles size
